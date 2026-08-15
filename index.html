@@ -126,6 +126,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 .player-art{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));flex-shrink:0;object-fit:cover;box-shadow:0 0 16px var(--glow);transform:scale(calc(1 + var(--pulse)*0.05));}
 .player-meta{overflow:hidden;}
 .player-meta .t{font-size:.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mini-artist-link{appearance:none;border:0;background:transparent;padding:0;text-align:left;cursor:pointer;color:inherit;font:inherit;display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;} .mini-artist-link:hover{color:#fff;} 
 .player-meta .a{font-size:.7rem;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .player-center{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;max-width:560px;}
 .controls{display:flex;align-items:center;gap:14px;}
@@ -147,7 +148,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 
 .mobile-controls-mini { display: none; align-items: center; gap: 10px; flex-shrink:0; }
 
-@media (max-width:900px){
+@media (max-width:600px){
   .sidebar{display:none;}
   .mobile-nav{display:flex;}
   .player-center{display:none;}
@@ -182,6 +183,15 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 .np-title-block{text-align:center;}
 .np-title{font-size:1.4rem;font-weight:800;}
 .np-artist{font-size:.9rem;color:var(--text-dim);margin-top:4px;}
+.np-meta-link{
+  appearance:none;border:0;background:transparent;padding:0;margin:4px 0 0;
+  color:var(--text-dim);font:inherit;cursor:pointer;text-align:center;
+  transition:color .2s ease,transform .2s ease,text-shadow .2s ease;
+}
+.np-meta-link:hover{color:#fff;transform:translateY(-1px);text-shadow:0 0 14px var(--glow);}
+.np-album{font-size:.78rem;opacity:.82;max-width:min(80vw,360px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.np-meta-link[hidden]{display:none!important;}
+
 .np-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;min-width:0;}
 #vizCanvas{width:100%;max-width:520px;height:220px;border-radius:20px;}
 .np-progress{width:100%;max-width:480px;display:flex;flex-direction:column;gap:6px;}
@@ -230,7 +240,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
   .np-center{grid-column:2;grid-row:1;min-width:0;}
   .np-right{display:block!important;grid-column:1 / -1;grid-row:2;min-height:180px;overflow-y:auto;}
 }
-@media (max-width:900px){
+@media (max-width:600px){
   .np-grid{display:flex;flex-direction:column;gap:16px;height:auto;padding:0 16px calc(110px + env(safe-area-inset-bottom));overflow-y:auto;max-height:calc(100vh - 62px);}
   .np-left{padding-top:4px;gap:10px}.np-poster-wrap{width:min(220px,62vw)}
   .np-title{font-size:1.12rem}.np-artist{font-size:.78rem}.np-center{gap:13px;width:100%}.np-right{display:none!important;}
@@ -348,7 +358,7 @@ img,video,canvas{max-width:100%;}
 button,input,select{font:inherit;}
 button{touch-action:manipulation;}
 .bar{touch-action:none;}
-@media (max-width:900px){
+@media (max-width:600px){
   .main-viewport{width:100%;box-sizing:border-box;overflow-x:hidden;}
   .grid-cards{grid-template-columns:repeat(2,minmax(0,1fr));}
   .track-card{min-width:0;overflow:hidden;}
@@ -401,7 +411,7 @@ button:active,.btn-small:active,.btn-action:active,.icon-btn:active,.np-icon-btn
 .karaoke-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.05);font-size:.62rem;color:var(--text-dim);letter-spacing:.5px}
 .np-karaoke-tools{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:10px}
 .mobile-dsp-btn{display:none!important}
-@media(max-width:900px){.mobile-dsp-btn{display:flex!important}}
+@media(max-width:600px){.mobile-dsp-btn{display:flex!important}}
 .np-karaoke-tools button{border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);border-radius:999px;padding:7px 11px;font-size:.68rem;cursor:pointer}
 .np-karaoke-tools button.active{background:var(--accent);color:#001018;border-color:var(--accent);font-weight:800;box-shadow:0 0 18px var(--glow)}
 
@@ -412,13 +422,13 @@ button:active,.btn-small:active,.btn-action:active,.icon-btn:active,.np-icon-btn
 .bo-credit{font-size:.61rem;color:var(--text-dim);letter-spacing:1.1px;text-transform:uppercase;margin-top:8px}
 .bo-smart-mix{background:linear-gradient(135deg,rgba(0,242,254,.10),rgba(121,40,202,.12));border:1px solid var(--border);border-radius:16px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .bo-smart-mix .btn-action{padding:8px 13px;font-size:.72rem;white-space:nowrap}
-@media(max-width:720px){.lyric-line{font-size:1.04rem}.np-grid{grid-template-columns:1fr}.np-right{display:none}.np-center{min-width:0}.np-mode-select{max-width:52vw;overflow-x:auto}.bo-smart-mix{align-items:flex-start;flex-direction:column}.bo-smart-mix .btn-action{width:100%;justify-content:center}}
+@media(max-width:600px){.lyric-line{font-size:1.04rem}.np-grid{grid-template-columns:1fr}.np-right{display:none}.np-center{min-width:0}.np-mode-select{max-width:52vw;overflow-x:auto}.bo-smart-mix{align-items:flex-start;flex-direction:column}.bo-smart-mix .btn-action{width:100%;justify-content:center}}
 
 
 .bo-designer{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:9998;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.48);padding:6px 12px;border:1px solid rgba(255,255,255,.08);border-radius:999px;background:rgba(8,8,14,.45);backdrop-filter:blur(10px);pointer-events:none}.bo-designer strong{color:rgba(255,255,255,.85)}
 
 /* ===== PRO MOBILE / TOUCH OPTIMIZATION ===== */
-@media (hover:none) and (pointer:coarse){
+@media (max-width:600px) and (hover:none) and (pointer:coarse){
   html,body{width:100%;min-height:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;}
   body{overscroll-behavior-y:none;}
   .now-playing-overlay{height:100dvh;min-height:100svh;overflow:hidden;}
@@ -453,7 +463,7 @@ button:active,.btn-small:active,.btn-action:active,.icon-btn:active,.np-icon-btn
   #mobileLyricsContainer .lyric-line.active{font-size:1.38rem;transform:translateX(3px) scale(1.01);}
   .mobile-nav{padding-bottom:env(safe-area-inset-bottom);height:calc(62px + env(safe-area-inset-bottom));}
 }
-@media (hover:none) and (pointer:coarse) and (orientation:landscape){
+@media (max-width:600px) and (hover:none) and (pointer:coarse) and (orientation:landscape){
   .np-grid{display:grid!important;grid-template-columns:minmax(150px,.8fr) minmax(280px,1.2fr)!important;grid-template-rows:1fr!important;height:calc(100dvh - 58px)!important;overflow:hidden!important;padding:0 14px 12px!important;}
   .np-left{grid-column:1;grid-row:1;}
   .np-center{grid-column:2;grid-row:1;overflow-y:auto;scrollbar-width:none;}
@@ -473,7 +483,7 @@ button:active,.btn-small:active,.btn-action:active,.icon-btn:active,.np-icon-btn
   .np-right{display:block!important;visibility:visible!important;opacity:1!important;min-width:0!important;min-height:0!important;overflow-y:auto!important;}
   #lyricsContainer{display:block!important;visibility:visible!important;min-height:120px;}
 }
-@media (hover:none) and (pointer:coarse){
+@media (max-width:600px) and (hover:none) and (pointer:coarse){
   .np-seek-wrap{height:30px;margin-top:-2px;}
   .np-seek-slider{height:30px;}
   .np-seek-slider::-webkit-slider-thumb{width:18px;height:18px;margin-top:-6.5px;}
@@ -640,6 +650,28 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
 })();
 </script>
 
+
+<style id="booster-seamless-polish">
+:root{--bo-ease:cubic-bezier(.22,1,.36,1)}
+.view-panel{animation:boViewIn .42s var(--bo-ease) both}
+.track-card,.player-bar,.sidebar,.main-viewport,.np-poster-wrap,.np-right,.spotlight-banner,.bo-smart-mix{transition:transform .45s var(--bo-ease),opacity .35s ease,box-shadow .55s ease,border-color .35s ease,background .55s ease,filter .55s ease}
+.track-card:hover{box-shadow:0 16px 38px var(--glow),0 0 0 1px color-mix(in srgb,var(--accent) 55%,transparent)}
+.np-poster-wrap{box-shadow:0 25px 70px rgba(0,0,0,.52),0 0 55px var(--glow)}
+.np-play-circle{transition:transform .3s var(--bo-ease),box-shadow .5s ease,background .3s ease}
+.np-play-circle:hover{transform:scale(1.06);box-shadow:0 0 42px var(--glow),0 12px 35px rgba(0,0,0,.35)}
+.bf-btn,.btn-action,.btn-small,.icon-btn,.nav-item{transition:transform .24s var(--bo-ease),background .3s ease,border-color .3s ease,box-shadow .4s ease,filter .3s ease}
+.bf-btn:hover,.btn-action:hover,.btn-small:hover,.icon-btn:hover{box-shadow:0 0 24px var(--glow);filter:saturate(1.08)}
+#npBg,.bf-art-bg{transition:background .9s ease,background-image .9s ease,opacity .6s ease,filter .8s ease}
+@keyframes boViewIn{from{opacity:0;transform:translateY(7px) scale(.995)}to{opacity:1;transform:none}}
+@media(min-width:601px){
+  .sidebar{display:flex!important}.mobile-nav{display:none!important}.player-center{display:flex!important}.player-right{display:flex!important}.player-bar{bottom:0!important;margin:0!important;border-radius:0!important}
+  .np-grid{display:grid!important}.np-right{display:block!important;visibility:visible!important;opacity:1!important}.lyrics-mobile-btn,.mobile-lyrics-sheet{display:none!important}
+}
+@media(max-width:600px){
+  .view-panel{animation-duration:.3s}.main-viewport{padding-bottom:175px}
+}
+@media(prefers-reduced-motion:reduce){.view-panel{animation:none}}
+</style>
 </head>
 <body data-theme="dark">
 
@@ -882,7 +914,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
       <div class="np-poster-wrap"><img id="npArt" src=""></div>
       <div class="np-title-block">
         <div class="np-title" id="npTitle">—</div>
-        <div class="np-artist" id="npArtist">—</div>
+        <button class="np-artist np-meta-link" id="npArtist" type="button" onclick="openCurrentArtist(event)">—</button>
+        <button class="np-album np-meta-link" id="npAlbum" type="button" onclick="openCurrentAlbum(event)" hidden>—</button>
       </div>
     </div>
     <div class="np-center">
@@ -1095,10 +1128,14 @@ function normalizeSong(song){
   let parsedDuration = parseFloat(song.duration);
   if (isNaN(parsedDuration)) parsedDuration = 0;
 
+  const streamUrls = dl.map(d=>d?.url).filter(Boolean);
   return {
     id: song.id, title: decodeEntities(song.name || song.title || 'Untitled'),
     artist: decodeEntities(artists), album: song.album ? decodeEntities(song.album.name||'') : '',
-    image: img, duration: parsedDuration, streamUrl: pick.url || '',
+    albumId: song.album?.id || song.albumId || '',
+    artistId: song.artists?.primary?.[0]?.id || song.artistId || '',
+    artistIds: (song.artists?.primary || []).map(a=>a?.id).filter(Boolean),
+    image: img, duration: parsedDuration, streamUrl: pick.url || streamUrls[0] || '', streamUrls,
     source: 'api', year: song.year || ''
   };
 }
@@ -1110,16 +1147,29 @@ function normalizeLocalFile(file){const url=URL.createObjectURL(file);return {id
 
 /* ================= API LAYER ================= */
 async function apiFetch(url, options={}){
-  const ctrl = new AbortController();
-  const timer = setTimeout(()=>ctrl.abort(), 12000);
-  try {
-    const r = await fetch(url, {...options, signal:ctrl.signal});
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    return await r.json();
-  } finally { clearTimeout(timer); }
+  const maxAttempts = options.retry === false ? 1 : 3;
+  const fetchOptions = {...options}; delete fetchOptions.retry;
+  let lastError;
+  for(let attempt=1; attempt<=maxAttempts; attempt++){
+    const ctrl = new AbortController();
+    const timer = setTimeout(()=>ctrl.abort(), 12000);
+    try {
+      const r = await fetch(url, {...fetchOptions, signal:ctrl.signal, cache:'no-store'});
+      if(!r.ok) throw new Error(`HTTP ${r.status}`);
+      return await r.json();
+    } catch(e){
+      lastError=e;
+      if(attempt<maxAttempts){
+        await new Promise(res=>setTimeout(res, 450*attempt));
+      }
+    } finally { clearTimeout(timer); }
+  }
+  throw lastError || new Error('Request failed');
 }
+const BO_PAGE_SEED = window.__boFreshSeed || (Date.now() + '-' + Math.random().toString(36).slice(2));
+
 async function apiSearchSongs(q, limit=20){
-  const _boFreshBust=Date.now()+'-'+window.BO_PAGE_SEED;
+  const _boFreshBust=Date.now()+'-'+BO_PAGE_SEED;
 
   const j=await apiFetch(`${API_BASE}/api/search/songs?query=${encodeURIComponent(q)}&limit=${Math.min(50,Math.max(5,limit))}`);
   return (j?.data?.results||[]).map(normalizeSong);
@@ -1190,6 +1240,9 @@ let eightDAnimId=null, eightDAngle=0, micStream=null, micSource=null, micGainNod
 let freqData, timeData, isCrossfading = false;
 
 [activeAudio, nextAudio].forEach(a => {
+  a.addEventListener('error', () => {
+    if(a === activeAudio){ state.isPlaying=false; try{updatePlayButtons()}catch(e){} }
+  });
   a.addEventListener('loadedmetadata', () => {
     if (a === activeAudio) {
       document.getElementById('timeTotal').textContent = formatTime(a.duration);
@@ -1229,6 +1282,16 @@ function applyVocalCut(){
     if(n.wet) n.wet.gain.setTargetAtTime(state.vocalCut?1:0,audioCtx.currentTime,.04);
   });
 }
+function toggleVocalCut(){
+  state.vocalCut=!state.vocalCut;
+  const vc=document.getElementById('vocalCutToggle');
+  if(vc) vc.checked=state.vocalCut;
+  localStorage.setItem('bo_vocal_cut',state.vocalCut?'1':'0');
+  try{initAudioGraph();}catch(e){}
+  applyVocalCut();
+  toast(state.vocalCut?'🎙️ Vocal Cut ON — Karaoke mode':'🎙️ Vocal Cut OFF');
+}
+
 
 function initAudioGraph(){
   if(audioCtx) return;
@@ -1292,44 +1355,35 @@ function initAudioGraph(){
   analyser.connect(audioCtx.destination);
 }
 
-function playTrack(track, addToQueueIfMissing=true){
-  initAudioGraph();
-  if(audioCtx && audioCtx.state==='suspended') audioCtx.resume();
-
-  const idx = state.queue.findIndex(t=>trackKey(t)===trackKey(track));
-  if(idx>=0){ state.currentIndex = idx; }
-  else if(addToQueueIfMissing){ state.queue.push(track); state.currentIndex = state.queue.length-1; }
-
-  state.playedHistoryKeys.add(trackKey(track));
-  crossfadeToken++;
-  isCrossfading = false;
-  try{ nextAudio.pause(); nextAudio.currentTime=0; }catch(e){}
-  activeGainNode.gain.value = 1;
-  nextGainNode.gain.value = 0;
-
-  // Reset lyrics & timing state to prevent freezing
-  currentLyrics = null;
-  activeLyricIndex = -1;
-  lyricsRequestToken++;
-  if (lyricScrollFrame) { cancelAnimationFrame(lyricScrollFrame); lyricScrollFrame = 0; }
-
-  activeAudio.src = track.streamUrl;
-  activeAudio.playbackRate = state.speed;
-  activeAudio.play().then(()=>{ state.isPlaying=true; updatePlayButtons(); }).catch(err=>{ state.isPlaying=false; updatePlayButtons(); toast('Unable to play this track'); console.warn('Playback error:',err); });
-
-  addToRecent(track);
-  state.playCounts[trackKey(track)] = (state.playCounts[trackKey(track)] || 0) + 1;
-  persistPlayedTitle(track);
-  saveLS();
-  updateNowPlayingUI(track);
-  fetchAndRenderLyrics(track);
-  extractAndApplyColors(track);
-  setMediaSessionMeta(track);
-  renderQueueViews();
-  saveResumeState(track,0);
-  if(state.autoPlay) ensureAutoplayQueue(6);
+async function playTrack(track, addToQueueIfMissing=true){
+  if(!track) return false;
+  try{
+    initAudioGraph();
+    if(audioCtx?.state==='suspended') await audioCtx.resume();
+    const idx=state.queue.findIndex(t=>trackKey(t)===trackKey(track));
+    if(idx>=0) state.currentIndex=idx;
+    else if(addToQueueIfMissing){state.queue.push(track);state.currentIndex=state.queue.length-1;}
+    const urls=[track.streamUrl,...(track.streamUrls||[])].filter(Boolean);
+    if(!urls.length){state.isPlaying=false;updatePlayButtons();toast('No playable stream found');return false;}
+    state.playedHistoryKeys.add(trackKey(track));
+    crossfadeToken++; isCrossfading=false;
+    try{nextAudio.pause();nextAudio.currentTime=0;nextAudio.removeAttribute('src');nextAudio.load();}catch(e){}
+    if(activeGainNode) activeGainNode.gain.value=1; if(nextGainNode) nextGainNode.gain.value=0;
+    currentLyrics=null;activeLyricIndex=-1;lyricsRequestToken++;
+    if(lyricScrollFrame){cancelAnimationFrame(lyricScrollFrame);lyricScrollFrame=0;}
+    activeAudio.pause();activeAudio.src=urls[0];activeAudio.load();activeAudio.playbackRate=state.speed;state.isPlaying=false;updatePlayButtons();
+    let ok=false;
+    for(const url of urls){
+      try{if(activeAudio.src!==new URL(url,location.href).href){activeAudio.src=url;activeAudio.load();} await activeAudio.play();track.streamUrl=url;ok=true;break;}catch(e){console.warn('Stream mirror failed',e);}
+    }
+    if(!ok){state.isPlaying=false;updatePlayButtons();toast('This song could not be played');return false;}
+    state.isPlaying=true;updatePlayButtons();
+    addToRecent(track);state.playCounts[trackKey(track)]=(state.playCounts[trackKey(track)]||0)+1;persistPlayedTitle(track);saveLS();
+    updateNowPlayingUI(track);fetchAndRenderLyrics(track);extractAndApplyColors(track);setMediaSessionMeta(track);renderQueueViews();saveResumeState(track,0);
+    if(state.autoPlay) ensureAutoplayQueue(6);
+    return true;
+  }catch(err){state.isPlaying=false;updatePlayButtons();console.error('playTrack failed:',err);toast('Playback could not start');return false;}
 }
-
 async function executeAppleCrossfade(nextTrack){
   if(isCrossfading || !nextTrack || !audioCtx) return;
   isCrossfading = true;
@@ -1401,19 +1455,42 @@ function addToRecent(track){
 }
 
 async function togglePlay(){
-  if(!activeAudio.src) return;
+  const track=currentTrack();
+  if(!track && !activeAudio.src){toast('Choose a song first');return;}
   initAudioGraph();
-  try { if(audioCtx && audioCtx.state==='suspended') await audioCtx.resume(); } catch(e) {}
-  if(state.isPlaying){
-    activeAudio.pause(); if(isCrossfading) nextAudio.pause();
-    state.isPlaying=false; updatePlayButtons();
-  } else {
-    try { await activeAudio.play(); if(isCrossfading) await nextAudio.play(); state.isPlaying=true; }
-    catch(e){ state.isPlaying=false; toast('Unable to resume playback'); console.warn('Playback resume error:',e); }
+  try{if(audioCtx?.state==='suspended')await audioCtx.resume();}catch(e){}
+
+  // Use the real audio element as the source of truth. state.isPlaying can
+  // briefly lag during stream swaps/crossfade, which previously made the
+  // Play/Pause button appear stuck.
+  const actuallyPlaying = !activeAudio.paused && !activeAudio.ended && activeAudio.readyState >= 2;
+
+  if(actuallyPlaying){
+    activeAudio.pause();
+    if(isCrossfading) nextAudio.pause();
+    state.isPlaying=false;
     updatePlayButtons();
+    if(track) saveResumeState(track,activeAudio.currentTime||0);
+    return;
+  }
+
+  try{
+    if(!activeAudio.src && track){
+      await playTrack(track,false);
+      return;
+    }
+    if(activeAudio.readyState===0) activeAudio.load();
+    await activeAudio.play();
+    if(isCrossfading && nextAudio.paused===false) await nextAudio.play();
+    state.isPlaying=true;
+    updatePlayButtons();
+  }catch(e){
+    state.isPlaying=false;
+    updatePlayButtons();
+    console.warn('Playback resume error:',e);
+    toast('Unable to resume playback');
   }
 }
-
 function recommendationKey(t){ return trackKey(t); }
 function recentKeys(limit=40){ return new Set(state.recentlyPlayed.slice(0,limit).map(recommendationKey)); }
 function artistKey(t){ return String(t?.artist||'Unknown').split(',')[0].trim().toLowerCase(); }
@@ -1678,16 +1755,12 @@ function toggleShuffle(){ state.shuffle=!state.shuffle; updatePlayButtons(); toa
 function cycleRepeat(){ state.repeat = state.repeat==='off'?'all':state.repeat==='all'?'one':'off'; updatePlayButtons(); toast('Repeat: '+state.repeat); }
 
 function updatePlayButtons(){
-  const icon = state.isPlaying?'⏸':'▶';
-  document.getElementById('miniPlayBtn').textContent = icon;
-  document.getElementById('mobilePlayBtn').textContent = icon;
-  document.getElementById('npPlayBtn').textContent = icon;
-  document.getElementById('shuffleBtn').classList.toggle('on', state.shuffle);
-  document.getElementById('npShuffleBtn').classList.toggle('on', state.shuffle);
-  document.getElementById('repeatBtn').classList.toggle('on', state.repeat!=='off');
-  document.getElementById('npRepeatBtn').classList.toggle('on', state.repeat!=='off');
-  document.getElementById('repeatBtn').textContent = state.repeat==='one'?'🔂':'🔁';
-  document.getElementById('npRepeatBtn').textContent = state.repeat==='one'?'🔂':'🔁';
+  const icon=state.isPlaying?'⏸':'▶';
+  const txt=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
+  const on=(id,v)=>{const el=document.getElementById(id);if(el)el.classList.toggle('on',v)};
+  txt('miniPlayBtn',icon);txt('mobilePlayBtn',icon);txt('npPlayBtn',icon);
+  on('shuffleBtn',state.shuffle);on('npShuffleBtn',state.shuffle);on('repeatBtn',state.repeat!=='off');on('npRepeatBtn',state.repeat!=='off');
+  txt('repeatBtn',state.repeat==='one'?'🔂':'🔁');txt('npRepeatBtn',state.repeat==='one'?'🔂':'🔁');
 }
 function currentTrack(){ return state.queue[state.currentIndex] || null; }
 
@@ -1718,6 +1791,7 @@ function handleAudioTimeUpdate(audio){
   if(seekSlider && !seekSlider.matches(':active')) seekSlider.value=String(Math.round(pct*10));
   updateActiveLyric(currentTime);
   if(state.autoPlay && !state.isFetchingAutoPlay && (state.queue.length-state.currentIndex-1) < 3) ensureAutoplayQueue(6);
+  try{bfRefreshViralMixIfNeeded();}catch(e){}
   checkSleepTimer();
   const t = currentTrack(); if(t) saveResumeState(t, currentTime);
 }
@@ -1727,7 +1801,21 @@ function handleAudioTimeUpdate(audio){
   audio.addEventListener('ended', ()=>{ if(audio === activeAudio && !isCrossfading) playNext(false); });
   audio.addEventListener('play', ()=>{ if(audio === activeAudio){ state.isPlaying=true; updatePlayButtons(); } });
   audio.addEventListener('pause', ()=>{ if(audio === activeAudio && !isCrossfading){ state.isPlaying=false; updatePlayButtons(); } });
+  audio.addEventListener('ended', ()=>{ if(audio === activeAudio && !isCrossfading){ state.isPlaying=false; updatePlayButtons(); } });
   audio.addEventListener('error', ()=>{ if(audio === activeAudio){ state.isPlaying=false; updatePlayButtons(); toast('Audio stream unavailable'); } });
+});
+
+/* ================= KEYBOARD CONTROLS ================= */
+document.addEventListener('keydown', e=>{
+  const tag=(e.target?.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea'||tag==='select'||e.target?.isContentEditable) return;
+  if(e.code==='Space'){ e.preventDefault(); togglePlay(); }
+  else if(e.code==='ArrowRight'){ e.preventDefault(); if(activeAudio.duration) activeAudio.currentTime=Math.min(activeAudio.duration,activeAudio.currentTime+5); }
+  else if(e.code==='ArrowLeft'){ e.preventDefault(); activeAudio.currentTime=Math.max(0,activeAudio.currentTime-5); }
+  else if(e.key.toLowerCase()==='m'){ e.preventDefault(); activeAudio.muted=!activeAudio.muted; toast(activeAudio.muted?'Muted':'Unmuted'); }
+  else if(e.key.toLowerCase()==='n'){ e.preventDefault(); playNext(true); }
+  else if(e.key.toLowerCase()==='p'){ e.preventDefault(); playPrev(); }
+  else if(e.key.toLowerCase()==='v'){ e.preventDefault(); toggleVocalCut(); }
 });
 
 function saveResumeState(track,time){
@@ -1780,7 +1868,10 @@ function handleSeek(e, barElement) {
 });
 const npSeekSlider=document.getElementById('npSeekSlider');
 if(npSeekSlider){
+  npSeekSlider.addEventListener('click', e=>e.stopPropagation());
+  npSeekSlider.addEventListener('pointerdown', e=>e.stopPropagation());
   npSeekSlider.addEventListener('input', e=>{
+    e.stopPropagation();
     if(!activeAudio.duration || !Number.isFinite(activeAudio.duration)) return;
     const ratio=Number(e.target.value)/1000;
     activeAudio.currentTime=Math.max(0,Math.min(activeAudio.duration,ratio*activeAudio.duration));
@@ -1798,6 +1889,36 @@ document.getElementById('volumeSlider').addEventListener('input', e=>{
 });
 document.getElementById('volumeSlider').value = state.volume;
 
+
+/* ================= NOW PLAYING ARTIST / ALBUM NAVIGATION ================= */
+function openCurrentArtist(event){
+  event?.stopPropagation();
+  const t=currentTrack();
+  if(!t || t.source==='local') { toast('Artist details unavailable for this local file'); return; }
+  const id=t.artistId || t.artistIds?.[0];
+  if(id) openArtist(id);
+  else if(t.artist) {
+    apiSearchArtists(t.artist).then(results=>{
+      const first=results?.[0];
+      if(first?.id) openArtist(first.id);
+      else toast('Artist page not found');
+    }).catch(()=>toast('Could not open artist'));
+  } else toast('Artist page not available');
+}
+function openCurrentAlbum(event){
+  event?.stopPropagation();
+  const t=currentTrack();
+  if(!t || t.source==='local') { toast('Album details unavailable for this local file'); return; }
+  if(t.albumId) openAlbum(t.albumId);
+  else if(t.album) {
+    apiSearchAlbums(t.album).then(results=>{
+      const first=results?.[0];
+      if(first?.id) openAlbum(first.id);
+      else toast('Album page not found');
+    }).catch(()=>toast('Could not open album'));
+  } else toast('Album page not available');
+}
+
 /* ================= UI UPDATES ================= */
 function updateNowPlayingUI(track){
   if(!track) return;
@@ -1805,7 +1926,20 @@ function updateNowPlayingUI(track){
   document.getElementById('miniArtist').textContent = track.artist;
   document.getElementById('miniArt').src = track.image || placeholderArt();
   document.getElementById('npTitle').textContent = track.title;
-  document.getElementById('npArtist').textContent = track.artist;
+  const npArtist=document.getElementById('npArtist');
+  npArtist.textContent = track.artist || 'Unknown Artist';
+  npArtist.disabled = !track.artist;
+  const npAlbum=document.getElementById('npAlbum');
+  if(npAlbum){
+    npAlbum.textContent = track.album ? '💿 ' + track.album : '';
+    npAlbum.hidden = !track.album;
+    npAlbum.disabled = !track.album;
+  }
+  const miniArtist=document.getElementById('miniArtist');
+  miniArtist.textContent = track.artist || 'Unknown Artist';
+  miniArtist.title = track.artist ? 'Open artist' : '';
+  miniArtist.dataset.artistId = track.artistId || track.artistIds?.[0] || '';
+  miniArtist.style.cursor = track.artist ? 'pointer' : 'default';
   document.getElementById('npArt').src = track.image || placeholderArt();
   const favActive = isFavorite(track);
   document.getElementById('favMiniBtn').textContent = favActive?'♥':'♡';
@@ -1830,6 +1964,14 @@ function toggleFavoriteCurrent(){
   saveLS(); updateNowPlayingUI(t);
   if(document.getElementById('view-library').classList.contains('active')) renderLibrary();
 }
+
+function openMiniArtist(event){
+  event?.stopPropagation();
+  const t=currentTrack();
+  if(!t) return;
+  openCurrentArtist(event);
+}
+
 function openNowPlaying(){ document.getElementById('npOverlay').classList.add('open'); }
 function closeNowPlaying(){document.getElementById('npOverlay').classList.remove('open');closeMobileLyrics();}
 function openMobileLyrics(){document.getElementById('mobileLyricsSheet')?.classList.add('open');}
@@ -2373,8 +2515,9 @@ function renderLibrary(tab){
   if(activeLibTab==='favorites') tracks = state.favorites;
   else if(activeLibTab==='recent') tracks = state.recentlyPlayed;
   else if(activeLibTab==='most'){
-    const counts={}; state.recentlyPlayed.forEach(t=>{ counts[trackKey(t)]=(counts[trackKey(t)]||0)+1; });
-    tracks = [...state.recentlyPlayed].sort((a,b)=>(counts[trackKey(b)]||0)-(counts[trackKey(a)]||0));
+    const byKey=new Map();
+    Object.entries(state.playCounts||{}).forEach(([key,count])=>byKey.set(key,Number(count)||0));
+    tracks = [...state.recentlyPlayed].sort((a,b)=>(byKey.get(trackKey(b))||0)-(byKey.get(trackKey(a))||0));
   }
   else if(activeLibTab==='local') tracks = state.localTracks;
   else if(activeLibTab==='downloads') tracks = state.downloads || [];
@@ -2557,7 +2700,33 @@ document.getElementById('autoPlayToggle').addEventListener('change', e=>{
   state.autoPlay = e.target.checked; saveLS(); toast(state.autoPlay?'AutoPlay Enabled':'AutoPlay Disabled');
 });
 document.getElementById('gaplessToggle').addEventListener('change',e=>{state.gapless=e.target.checked;saveLS();toast(state.gapless?'Gapless Engine ON':'Gapless Engine OFF');});
-document.getElementById('qualitySelect').addEventListener('change',async e=>{state.quality=e.target.value;const t=currentTrack();if(t&&t.source==='api'){const playing=state.isPlaying,pos=activeAudio.currentTime||0;try{const fresh=(await apiSearchSongs(t.title)).find(x=>x.id===t.id);if(fresh){state.queue[state.currentIndex]=fresh;activeAudio.src=fresh.streamUrl;activeAudio.load();activeAudio.currentTime=pos;if(playing)await activeAudio.play();updateNowPlayingUI(fresh);}}catch(err){console.warn('Quality switch failed',err);}}toast('Quality set to '+e.target.value);saveLS();});
+document.getElementById('qualitySelect').addEventListener('change',async e=>{
+  const previousQuality=state.quality; state.quality=e.target.value;
+  const t=currentTrack();
+  if(t&&t.source==='api'){
+    const playing=state.isPlaying, pos=Number(activeAudio.currentTime)||0;
+    crossfadeToken++; isCrossfading=false;
+    try{
+      const fresh=(await apiSearchSongs(t.title,30)).find(x=>x.id===t.id);
+      if(!fresh?.streamUrl) throw new Error('No stream for selected quality');
+      state.queue[state.currentIndex]=fresh;
+      const audio=activeAudio;
+      audio.pause(); audio.src=fresh.streamUrl; audio.load();
+      await new Promise((resolve,reject)=>{
+        const ok=()=>{cleanup();resolve();}, bad=()=>{cleanup();reject(new Error('Audio metadata failed'));};
+        const cleanup=()=>{audio.removeEventListener('loadedmetadata',ok);audio.removeEventListener('error',bad);};
+        audio.addEventListener('loadedmetadata',ok,{once:true}); audio.addEventListener('error',bad,{once:true});
+      });
+      if(Number.isFinite(audio.duration) && audio.duration>0) audio.currentTime=Math.min(pos,audio.duration-0.05);
+      updateNowPlayingUI(fresh);
+      if(playing) await audio.play();
+    }catch(err){
+      state.quality=previousQuality; e.target.value=previousQuality;
+      console.warn('Quality switch failed:',err); toast('Could not switch quality');
+    }
+  }
+  toast('Quality set to '+state.quality); saveLS();
+});
 
 /* ===== TRUE 8D + KARAOKE MICROPHONE ===== */
 function set8D(enabled){
@@ -2759,5 +2928,241 @@ window.addEventListener('beforeunload', ()=>{ const t=currentTrack(); if(t) save
 
 
 
+<style id="booster-feature-upgrades">
+#boosterFeatureFab{position:fixed;right:18px;bottom:92px;z-index:9998;width:48px;height:48px;border:1px solid var(--border,#333);border-radius:50%;background:rgba(20,20,25,.92);color:inherit;box-shadow:0 8px 30px rgba(0,0,0,.35);cursor:pointer;font-size:20px}
+#boosterFeatureModal{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px)}
+#boosterFeatureModal.open{display:flex}.booster-feature-card{width:min(760px,96vw);max-height:88vh;overflow:auto;background:var(--panel,#111);border:1px solid var(--border,#333);border-radius:20px;padding:20px;box-shadow:0 20px 80px rgba(0,0,0,.5)}
+.bf-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.bf-head h2{margin:0}.bf-close{border:0;background:transparent;color:inherit;font-size:22px;cursor:pointer}
+.bf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.bf-btn{border:1px solid var(--border,#333);background:rgba(255,255,255,.04);color:inherit;border-radius:12px;padding:12px;text-align:left;cursor:pointer}.bf-btn:hover{background:rgba(255,255,255,.09)}
+.bf-section{margin:18px 0 8px;font-size:.72rem;letter-spacing:.12em;color:var(--text-dim,#888);text-transform:uppercase}.bf-status{font-size:.78rem;color:var(--text-dim,#999);margin-top:12px}
+#boosterCommandPalette{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);display:none;align-items:flex-start;justify-content:center;padding-top:12vh}.booster-cmd{width:min(650px,92vw);background:var(--panel,#111);border:1px solid var(--border,#333);border-radius:16px;overflow:hidden}.booster-cmd input{width:100%;box-sizing:border-box;padding:16px;background:transparent;border:0;border-bottom:1px solid var(--border,#333);color:inherit;font-size:1rem;outline:none}.cmd-results button{display:block;width:100%;border:0;background:transparent;color:inherit;text-align:left;padding:12px 16px;cursor:pointer}.cmd-results button:hover{background:rgba(255,255,255,.08)}
+.bf-dragging{opacity:.45}.bf-drop-target{outline:2px dashed currentColor;outline-offset:-3px}
+@media(max-width:600px){#boosterFeatureFab{right:12px;bottom:145px}.bf-grid{grid-template-columns:1fr}.booster-feature-card{padding:15px}}
+</style>
+<script id="booster-feature-upgrades-script">
+(()=>{
+  'use strict';
+  const $=s=>document.querySelector(s);
+  const toastSafe=m=>{try{if(typeof toast==='function')toast(m);else console.log(m)}catch(e){console.log(m)}};
+  const trackSig=t=>t?.id+'::'+(t?.source||'api');
+
+  // 1) Smart Music: fresh, rotating, duplicate-resistant genre mixes
+  const MOODS={
+    Chill:['chill hindi songs','viral lofi hindi songs','new chill bollywood songs','trending calm hindi songs'],
+    Party:['viral party hindi songs','latest hindi dance hits','trending bollywood party songs','new indian party songs'],
+    Focus:['focus hindi instrumental','study music india','calm instrumental hindi','ambient study music'],
+    Workout:['viral workout hindi songs','gym hindi songs','high energy indian songs','trending workout songs'],
+    Romantic:['viral romantic hindi songs','new love hindi hits','trending romantic bollywood songs','latest hindi love songs'],
+    Bollywood:['latest viral bollywood songs','trending hindi film songs','new bollywood hits','viral hindi songs'],
+    'Hindi Rap':['viral hindi rap','trending desi hip hop','new indian hip hop','latest hindi rap hits'],
+    Marathi:['marathi songs','marathi hits','viral marathi songs','trending marathi songs','latest marathi songs','new marathi songs','marathi music'],
+    'Marathi Rap':['marathi rap songs','marathi rap','marathi hip hop','viral marathi rap','trending marathi rap','new marathi rap','marathi hip-hop songs'],
+    'Marathi + Hindi Viral Mix':['marathi hindi viral mix','viral marathi hindi songs','trending marathi hindi songs']
+  };
+  const MIX_QUERIES={
+    Marathi:['marathi songs','marathi hits','viral marathi songs','trending marathi songs','latest marathi hits','new marathi songs'],
+    Hindi:['hindi songs','hindi hits','viral hindi songs','trending hindi songs','latest hindi hits','new hindi songs']
+  };
+  let smartMixGeneration=0;
+  let smartMixBusy=false;
+
+  const randomQuery=list=>list[Math.floor(Math.random()*list.length)];
+  const shuffleFresh=list=>{
+    const a=(list||[]).slice();
+    for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+    return a;
+  };
+  const uniqueTracks=tracks=>{
+    const seen=new Set();
+    return (tracks||[]).filter(t=>{const k=trackSig(t);if(!k||seen.has(k))return false;seen.add(k);return true;});
+  };
+
+  async function fetchSmartSongs(query,limit=20){
+    try{
+      // Do NOT append random numbers to the search text: some music APIs treat
+      // that as part of the actual query and return zero/irrelevant results.
+      return await apiSearchSongs(String(query).trim(),limit);
+    }catch(e){
+      console.warn('Smart Music query failed:',query,e);
+      return [];
+    }
+  }
+
+  function freshOnly(tracks,extraExclude=new Set()){
+    const recent=new Set((state.recentlyPlayed||[]).map(trackSig));
+    const queued=new Set((state.queue||[]).map(trackSig));
+    const current=trackSig(currentTrack?.());
+    return uniqueTracks(tracks).filter(t=>{
+      const k=trackSig(t);
+      return k!==current && !extraExclude.has(k) && !recent.has(k) && !queued.has(k);
+    });
+  }
+
+  async function buildGenreMix(mood,limit=24){
+    const queries=MOODS[mood]||[mood];
+    const selected=[...queries].sort(()=>Math.random()-.5).slice(0,3);
+    const batches=await Promise.all(selected.map(q=>fetchSmartSongs(q,14)));
+    const raw=uniqueTracks(batches.flat()).filter(t=>trackSig(t)!==trackSig(currentTrack?.()));
+    let fresh=freshOnly(raw);
+
+    // Prefer unseen songs, but never make a genre button look broken just
+    // because the API returned songs already heard. Fall back to valid results.
+    if(fresh.length<Math.min(8,limit)) fresh=raw;
+    return shuffleFresh(fresh).slice(0,limit);
+  }
+
+  async function bfMarathiHindiViralMix(){
+    const generation=++smartMixGeneration;
+    const [mr,hi]=await Promise.all([
+      Promise.all(MIX_QUERIES.Marathi.map(q=>fetchSmartSongs(q,10))).then(x=>x.flat()),
+      Promise.all(MIX_QUERIES.Hindi.map(q=>fetchSmartSongs(q,10))).then(x=>x.flat())
+    ]);
+    if(generation!==smartMixGeneration)return [];
+
+    const used=new Set();
+    const clean=(tracks,lang)=>shuffleFresh(freshOnly(tracks,used)).map(t=>{
+      const k=trackSig(t);used.add(k);return {...t,smartLanguage:lang};
+    });
+    const marathi=clean(mr,'Marathi');
+    const hindi=clean(hi,'Hindi');
+    const mixed=[];
+    const max=Math.max(marathi.length,hindi.length);
+    for(let i=0;i<max;i++){
+      if(marathi[i])mixed.push(marathi[i]);
+      if(hindi[i])mixed.push(hindi[i]);
+    }
+    return mixed.slice(0,24);
+  }
+
+  async function bfMoodMix(mood){
+    if(smartMixBusy)return;
+    smartMixBusy=true;
+    try{
+      toastSafe('✨ Finding fresh '+mood+' songs…');
+      let songs=mood==='Marathi + Hindi Viral Mix'
+        ? await bfMarathiHindiViralMix()
+        : await buildGenreMix(mood,24);
+
+      // Extra fallback for Marathi categories so the button remains usable
+      // even when one search endpoint returns an empty result set.
+      if(!songs.length && mood==='Marathi'){
+        songs=shuffleFresh(uniqueTracks((await Promise.all([
+          fetchSmartSongs('marathi songs',20),
+          fetchSmartSongs('marathi hits',20),
+          fetchSmartSongs('marathi music',20)
+        ])).flat())).slice(0,24);
+      }
+      if(!songs.length && mood==='Marathi Rap'){
+        songs=shuffleFresh(uniqueTracks((await Promise.all([
+          fetchSmartSongs('marathi rap',20),
+          fetchSmartSongs('marathi rap songs',20),
+          fetchSmartSongs('marathi hip hop',20)
+        ])).flat())).slice(0,24);
+      }
+
+      if(!songs.length){
+        toastSafe('No songs found — tap again or try another mix');
+        return;
+      }
+      state.queue=songs.slice();
+      state.currentIndex=-1;
+      state.lastMoodQuery=mood;
+      renderQueueViews();
+      await playTrack(songs[0]);
+      toastSafe(mood==='Marathi + Hindi Viral Mix'
+        ? '🔥 Fresh Marathi → Hindi → Marathi mix started'
+        : '🎵 Fresh '+mood+' Mix started');
+    }catch(e){
+      console.error('Smart Music error:',e);
+      toastSafe('Smart Music failed — try again');
+    }finally{smartMixBusy=false;}
+  }
+
+  async function bfSmartRecommend(){
+    if(smartMixBusy)return;
+    smartMixBusy=true;
+    try{
+      const current=currentTrack?.();
+      const seed=(current?.artist||current?.title||state.lastMoodQuery||'Hindi').split(',')[0];
+      const queries=[seed,'trending '+seed,'latest '+seed,'viral '+seed];
+      const batches=await Promise.all(queries.slice(0,3).map(q=>fetchSmartSongs(q,10)));
+      const fresh=freshOnly(batches.flat()).slice(0,10);
+      if(!fresh.length){toastSafe('No fresh recommendations found');return;}
+      fresh.forEach(x=>{if(!state.queue.some(q=>trackSig(q)===trackSig(x)))state.queue.push(x)});
+      renderQueueViews();
+      toastSafe('🧠 Fresh recommendations added');
+    }catch(e){toastSafe('Could not build recommendations');}
+    finally{smartMixBusy=false;}
+  }
+
+  // Automatically add a fresh alternating Marathi/Hindi batch before the queue runs dry.
+  let bfAutoMixBusy=false;
+  async function bfRefreshViralMixIfNeeded(){
+    if(bfAutoMixBusy||state.lastMoodQuery!=='Marathi + Hindi Viral Mix')return;
+    const remaining=state.queue.length-state.currentIndex-1;
+    if(remaining>3)return;
+    bfAutoMixBusy=true;
+    try{
+      const fresh=await bfMarathiHindiViralMix();
+      const existing=new Set(state.queue.map(trackSig));
+      fresh.filter(t=>!existing.has(trackSig(t))).slice(0,12).forEach(t=>state.queue.push(t));
+      renderQueueViews();
+      if(fresh.length)toastSafe('✨ Fresh Marathi ↔ Hindi songs added');
+    }catch(e){console.warn('Auto Smart Music refresh failed',e)}
+    finally{bfAutoMixBusy=false;}
+  }
+
+  // 2) Queue persistence + drag/drop reorder
+  function bfSaveQueue(){try{localStorage.setItem('bo_queue_v2',JSON.stringify(state.queue.slice(-100)));localStorage.setItem('bo_queue_index_v2',String(state.currentIndex));}catch(e){}}
+  function bfRestoreQueue(){try{const q=JSON.parse(localStorage.getItem('bo_queue_v2')||'null');if(Array.isArray(q)&&q.length&&!state.queue.length){state.queue=q;state.currentIndex=Math.min(Math.max(0,Number(localStorage.getItem('bo_queue_index_v2')||0)),q.length-1);}}catch(e){}}
+  const origRender=window.renderQueueViews;
+  if(typeof origRender==='function')window.renderQueueViews=function(){origRender();bfSaveQueue();setTimeout(bfEnableQueueDrag,0)};
+  function bfEnableQueueDrag(){const grid=$('#queueGrid');if(!grid)return;const cards=[...grid.querySelectorAll('.track-card')];cards.forEach((c)=>{if(c.dataset.bfBound)return;c.dataset.bfBound='1';c.draggable=true;c.addEventListener('dragstart',()=>c.classList.add('bf-dragging'));c.addEventListener('dragend',()=>c.classList.remove('bf-dragging'));c.addEventListener('dragover',e=>{e.preventDefault();c.classList.add('bf-drop-target')});c.addEventListener('dragleave',()=>c.classList.remove('bf-drop-target'));c.addEventListener('drop',e=>{e.preventDefault();c.classList.remove('bf-drop-target');const from=[...grid.children].indexOf(grid.querySelector('.bf-dragging'));const to=[...grid.children].indexOf(c);if(from<0||to<0||from===to)return;const queueStart=state.currentIndex+1;const item=state.queue.splice(queueStart+from,1)[0];state.queue.splice(queueStart+to,0,item);renderQueueViews();toastSafe('↕ Queue reordered')})})}
+
+  // 3) Export/import full user data
+  function bfExport(){const data={version:2,exportedAt:new Date().toISOString(),favorites:state.favorites,recentlyPlayed:state.recentlyPlayed,playlists:state.playlists,playCounts:state.playCounts,settings:{volume:state.volume,quality:state.quality,crossfade:state.crossfade,autoPlay:state.autoPlay,gapless:state.gapless,theme:state.theme}};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='booster-music-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toastSafe('⬇ Backup exported');}
+  function bfImport(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=async()=>{try{const d=JSON.parse(await input.files[0].text());if(!d||typeof d!=='object')throw 0;['favorites','recentlyPlayed','playlists','playCounts'].forEach(k=>{if(d[k]!==undefined)state[k]=d[k]});if(d.settings){Object.assign(state,d.settings)}saveLS();renderLibrary?.('favorites');renderLibrary?.('recent');toastSafe('⬆ Backup restored — refresh if needed');}catch(e){toastSafe('❌ Invalid backup file')}};input.click();}
+
+  // 4) Resume exact position / queue restore
+  bfRestoreQueue();
+  window.addEventListener('beforeunload',bfSaveQueue);
+
+  // 5) Media Session / lock-screen controls
+  function bfMediaSession(){if(!('mediaSession'in navigator))return;const handlers={play:()=>{if(activeAudio.paused)togglePlay()},pause:()=>{if(!activeAudio.paused)togglePlay()},nexttrack:()=>playNext(true),previoustrack:()=>playPrev(),seekbackward:d=>activeAudio.currentTime=Math.max(0,activeAudio.currentTime-(d.seekOffset||10)),seekforward:d=>activeAudio.currentTime=Math.min(activeAudio.duration||0,activeAudio.currentTime+(d.seekOffset||10))};Object.entries(handlers).forEach(([a,f])=>{try{navigator.mediaSession.setActionHandler(a,f)}catch(e){}})}
+  const oldUI=window.updateNowPlayingUI;if(typeof oldUI==='function')window.updateNowPlayingUI=function(t){oldUI(t);try{if('mediaSession'in navigator&&t){navigator.mediaSession.metadata=new MediaMetadata({title:t.title||'Unknown',artist:t.artist||'',album:t.album||'',artwork:t.image?[{src:t.image}]:[]});bfMediaSession()}}catch(e){}};
+
+  // 6) Dynamic artwork background
+  const bgStyle=document.createElement('style');bgStyle.textContent='.bf-art-bg{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center;filter:blur(45px);opacity:.12;transform:scale(1.08);pointer-events:none;transition:background-image .5s ease}';document.head.appendChild(bgStyle);const bg=document.createElement('div');bg.className='bf-art-bg';document.body.prepend(bg);
+  const oldUpdate=window.updateNowPlayingUI;if(typeof oldUpdate==='function'&&!oldUpdate.__bf){window.updateNowPlayingUI.__bf=true;window.updateNowPlayingUI=function(t){oldUpdate(t);if(t?.image)bg.style.backgroundImage=`url("${String(t.image).replace(/"/g,'')}")`}}
+
+  // 7) Command palette + shortcuts
+  const cp=document.createElement('div');cp.id='boosterCommandPalette';cp.innerHTML='<div class="booster-cmd"><input id="bfCmdInput" placeholder="Search actions… (Ctrl+K)"><div class="cmd-results" id="bfCmdResults"></div></div>';document.body.appendChild(cp);
+  const actions=[['Play / Pause',()=>togglePlay()],['Next Track',()=>playNext(true)],['Previous Track',()=>playPrev()],['Smart Recommendations',bfSmartRecommend],...Object.keys(MOODS).map(m=>['✨ '+m+' Mix',()=>bfMoodMix(m)]),['🔥 Marathi + Hindi Viral Mix',()=>bfMoodMix('Marathi + Hindi Viral Mix')],['Export Backup',bfExport],['Import Backup',bfImport],['Open Fullscreen Player',()=>toggleFullscreenPlayer?.()]];
+  function openCmd(){cp.style.display='flex';$('#bfCmdInput').value='';bfRenderCmd('');setTimeout(()=>$('#bfCmdInput').focus(),20)}function closeCmd(){cp.style.display='none'}function bfRenderCmd(q){const r=$('#bfCmdResults');r.innerHTML=actions.filter(a=>a[0].toLowerCase().includes(q.toLowerCase())).map((a,i)=>`<button data-cmd="${i}">${a[0]}</button>`).join('');r.querySelectorAll('[data-cmd]').forEach(b=>b.onclick=()=>{closeCmd();actions[+b.dataset.cmd][1]()})}
+  $('#bfCmdInput').addEventListener('input',e=>bfRenderCmd(e.target.value));cp.addEventListener('click',e=>{if(e.target===cp)closeCmd()});
+
+  // 8) Feature center UI
+  const fab=document.createElement('button');fab.id='boosterFeatureFab';fab.title='Booster Feature Center';fab.textContent='⚡';document.body.appendChild(fab);
+  const modal=document.createElement('div');modal.id='boosterFeatureModal';modal.innerHTML=`<div class="booster-feature-card"><div class="bf-head"><h2>⚡ Booster Feature Center</h2><button class="bf-close" id="bfClose">✕</button></div><div class="bf-section">Smart Music</div><div class="bf-grid" id="bfSmartGrid"></div><div class="bf-section">Library & Backup</div><div class="bf-grid"><button class="bf-btn" id="bfExport">⬇ Export Library Backup</button><button class="bf-btn" id="bfImport">⬆ Import Library Backup</button><button class="bf-btn" id="bfResume">▶ Resume Last Song</button><button class="bf-btn" id="bfQueueSave">💾 Save Queue Now</button></div><div class="bf-section">Quick Controls</div><div class="bf-grid"><button class="bf-btn" id="bfCmd">⌘ Command Palette</button><button class="bf-btn" id="bfFS">⛶ Fullscreen Player</button><button class="bf-btn" id="bfShuffle">🔀 Shuffle</button><button class="bf-btn" id="bfClear">🧹 Clear Queue</button></div><div class="bf-status">Fresh multi-search every tap • Randomized order • Marathi / Marathi Rap fixed with fallback search • Marathi → Hindi alternation • V = Vocal Cut • Space = Play/Pause</div></div>`;document.body.appendChild(modal);
+  const smart=$('#bfSmartGrid');
+  const smartButtons=[['🧠 Smart Recommendations',bfSmartRecommend],...Object.keys(MOODS).map(m=>[m==='Marathi + Hindi Viral Mix'?'🔥 Marathi + Hindi Viral Mix':'✨ '+m+' Mix',()=>bfMoodMix(m)])];
+  smartButtons.forEach(([label,fn])=>{const b=document.createElement('button');b.type='button';b.className='bf-btn';b.textContent=label;b.addEventListener('click',()=>{Promise.resolve(fn()).catch(e=>{console.error(e);toastSafe('This Smart Music button failed — try again')})});smart.appendChild(b)});
+  fab.onclick=()=>modal.classList.add('open');$('#bfClose').onclick=()=>modal.classList.remove('open');modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+  $('#bfExport').onclick=bfExport;$('#bfImport').onclick=bfImport;$('#bfQueueSave').onclick=()=>{bfSaveQueue();toastSafe('💾 Queue saved')};$('#bfCmd').onclick=()=>{modal.classList.remove('open');openCmd()};$('#bfFS').onclick=()=>toggleFullscreenPlayer?.();$('#bfShuffle').onclick=()=>toggleShuffle();$('#bfClear').onclick=()=>clearQueue();$('#bfResume').onclick=()=>{const p=state.lastPosition;if(p?.track){playTrack(p.track).then?.(()=>{try{activeAudio.currentTime=Number(p.time)||0}catch(e){}});toastSafe('▶ Resuming last song')}};
+  document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCmd()}if(e.key==='Escape'){closeCmd();modal.classList.remove('open')}});
+
+  // 9) Network-aware quality suggestion (doesn't force a downgrade)
+  function bfNetwork(){const c=navigator.connection;if(!c)return;const slow=c.saveData||/2g/.test(c.effectiveType||'');if(slow&&state.quality==='320kbps')toastSafe('📶 Slow network detected — consider 160kbps for smoother playback');}
+  bfNetwork();navigator.connection?.addEventListener?.('change',bfNetwork);
+
+  // 10) Skip tracking / lightweight analytics for recommendations
+  const oldNext=window.playNext;if(typeof oldNext==='function'&&!oldNext.__bf){const f=window.playNext;window.playNext=function(...args){const t=currentTrack?.();if(t){t.skipCount=(t.skipCount||0)+1}return f(...args)};window.playNext.__bf=true}
+
+  // 11) Prevent accidental duplicate queue entries from smart/autoplay actions
+  window.boosterAddUniqueToQueue=t=>{if(t&&!state.queue.some(q=>trackSig(q)===trackSig(t))){state.queue.push(t);renderQueueViews()}};
+
+  setTimeout(()=>{bfEnableQueueDrag();bfSaveQueue();bfMediaSession()},800);
+})();
+</script>
 </body>
 </html>
