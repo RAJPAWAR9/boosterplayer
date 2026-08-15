@@ -672,6 +672,161 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
 }
 @media(prefers-reduced-motion:reduce){.view-panel{animation:none}}
 </style>
+
+<style id="raj-pawar-branding">
+/* ===== RAJ PAWAR SIGNATURE BRANDING ===== */
+.raj-pawar-signature{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.55rem;
+  width:max-content;
+  max-width:100%;
+  padding:.48rem .9rem;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  color:#fff;
+  font-weight:800;
+  letter-spacing:.055em;
+  line-height:1;
+  text-decoration:none;
+  isolation:isolate;
+  overflow:hidden;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.035)),
+    rgba(10,14,25,.72);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.035) inset,
+    0 8px 30px rgba(0,0,0,.28),
+    0 0 24px rgba(120,180,255,.12);
+  text-shadow:0 0 14px rgba(255,255,255,.28);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),
+             box-shadow .35s ease,
+             border-color .35s ease,
+             background .35s ease;
+}
+.raj-pawar-signature::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  z-index:-2;
+  border-radius:inherit;
+  background:conic-gradient(from 180deg,
+    rgba(0,229,255,.0),
+    rgba(0,229,255,.9),
+    rgba(168,85,247,.95),
+    rgba(255,85,180,.8),
+    rgba(0,229,255,.0));
+  filter:blur(9px);
+  opacity:.65;
+  animation:rajGlow 5s linear infinite;
+}
+.raj-pawar-signature::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:-45%;
+  width:35%;
+  transform:skewX(-18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+  animation:rajShine 4.8s ease-in-out infinite;
+}
+.raj-pawar-signature .raj-dot{
+  width:.52rem;
+  height:.52rem;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 10px currentColor,0 0 22px currentColor;
+  animation:rajPulse 2s ease-in-out infinite;
+}
+.raj-pawar-signature .raj-label{
+  opacity:.72;
+  font-size:.72em;
+  font-weight:700;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.raj-pawar-signature .raj-name{
+  font-size:1em;
+  background:linear-gradient(90deg,#fff,#b9eaff,#d9b8ff,#fff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  background-size:220% 100%;
+  animation:rajText 5s ease-in-out infinite;
+}
+.raj-pawar-signature:hover,
+.raj-pawar-signature:focus-visible{
+  transform:translateY(-2px) scale(1.025);
+  border-color:rgba(140,225,255,.55);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.07) inset,
+    0 12px 34px rgba(0,0,0,.35),
+    0 0 38px rgba(80,200,255,.24),
+    0 0 58px rgba(180,90,255,.16);
+  outline:none;
+}
+@keyframes rajGlow{
+  to{transform:rotate(360deg)}
+}
+@keyframes rajShine{
+  0%,55%,100%{left:-45%;opacity:0}
+  12%,38%{opacity:1}
+  48%{left:125%;opacity:0}
+}
+@keyframes rajPulse{
+  0%,100%{transform:scale(.9);opacity:.72}
+  50%{transform:scale(1.15);opacity:1}
+}
+@keyframes rajText{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+
+/* Desktop + tablet: prominent but compact */
+@media (min-width:768px){
+  .raj-pawar-signature{
+    font-size:clamp:.82rem,1.1vw,1rem);
+    padding:.55rem 1rem;
+  }
+}
+/* Mobile: never overflow narrow screens */
+@media (max-width:767px){
+  .raj-pawar-signature{
+    font-size:.76rem;
+    padding:.46rem .72rem;
+    gap:.42rem;
+    letter-spacing:.035em;
+  }
+  .raj-pawar-signature .raj-label{font-size:.64em}
+  .raj-pawar-signature .raj-dot{width:.42rem;height:.42rem}
+}
+/* Large TV: make the signature easy to see from a distance */
+@media (min-width:1600px){
+  .raj-pawar-signature{
+    font-size:1.08rem;
+    padding:.7rem 1.18rem;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.06) inset,
+      0 12px 40px rgba(0,0,0,.3),
+      0 0 46px rgba(80,200,255,.2);
+  }
+}
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion:reduce){
+  .raj-pawar-signature,
+  .raj-pawar-signature::before,
+  .raj-pawar-signature::after,
+  .raj-pawar-signature .raj-dot,
+  .raj-pawar-signature .raj-name{animation:none!important;transition:none!important}
+}
+</style>
+
 </head>
 <body data-theme="dark">
 
@@ -707,7 +862,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
         <button class="nav-item" id="tvModeBtn">📺 TV Mode</button>
       </nav>
     </div>
-    <div class="sidebar-footer"><div class="bo-credit">Designed by Raj Pawar</div>
+    <div class="sidebar-footer"><div class="bo-credit"><span class="raj-pawar-signature" aria-label="Designed By Raj Pawar">
+  <span class="raj-dot" aria-hidden="true"></span>
+  <span class="raj-label">Designed By</span>
+  <span class="raj-name">Raj Pawar</span>
+</span></div>
       <div>Designed by <b>RAJ</b></div>
       <div class="status-dot"><span>●</span> Audio Engine: HD Seamless 320k</div>
       <div class="theme-row">
@@ -851,7 +1010,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
       </div>
     </section>
 
-    <div class="footer-brand">BOOSTER OS 3.0V MAX © 2026 — DESIGNED BY RAJ PAWAR</div>
+    <div class="footer-brand">BOOSTER OS 3.0V MAX © 2026 — <span class="raj-pawar-signature" aria-label="Designed By Raj Pawar">
+  <span class="raj-dot" aria-hidden="true"></span>
+  <span class="raj-label">Designed By</span>
+  <span class="raj-name">Raj Pawar</span>
+</span></div>
   </main>
 </div>
 
