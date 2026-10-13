@@ -1008,6 +1008,96 @@ function normalizeSongFromCompact(raw){
 function normalizeAlbumFromCompact(raw){ return { id: raw.id, name:(raw.title||"Untitled").replace(/&quot;/g,'"').replace(/&amp;/g,"&"), image: bestImage(raw.image), artistName: raw.description||"", year:"" }; }
 function normalizeArtistFromCompact(raw){ return { id: raw.id, name: raw.title||raw.name||"Unknown", image: bestImage(raw.image) }; }
 
+/* ===== iTUNES BRIDGE (free iTunes Search API): search + artwork + albums + artists; playback via JioSaavn -> YouTube fallback ===== */
+const ITB=(function(){
+  const BASE="https://itunes.apple.com/",C=new Map(),R=new Map(),CT="&country=IN";
+  const art=u=>u?u.replace(/\/\d+x\d+(bb)?\.(jpg|png)$/,"/600x600bb.$2").replace(/^http:/,"https:"):FALLBACK_ART;
+  const img=u=>[{quality:"500x500",url:art(u)}];
+  async function get(p,sig){
+    if(C.has(p))return C.get(p);
+    let r;try{r=await fetch(BASE+p,{signal:sig});}catch(e){if(e&&e.name==="AbortError")throw {type:"aborted"};throw e;}
+    if(!r.ok)throw new Error("itunes "+r.status);
+    const j=await r.json();if(C.size>150)C.delete(C.keys().next().value);C.set(p,j);return j;
+  }
+  const yr=d=>(d||"").slice(0,4);
+  const song=t=>({id:"it_"+t.trackId,name:t.trackName,duration:Math.round((t.trackTimeMillis||0)/1000),year:yr(t.releaseDate),language:"",image:img(t.artworkUrl100),artists:{primary:[{id:"ita_"+t.artistId,name:t.artistName}]},album:{id:"itc_"+t.collectionId,name:t.collectionName||""},downloadUrl:[],hasLyrics:false});
+  const album=a=>({id:"itc_"+a.collectionId,name:a.collectionName,image:img(a.artworkUrl100),year:yr(a.releaseDate),language:"",artists:{primary:[{name:a.artistName}]},songCount:a.trackCount||0});
+  const q=s=>encodeURIComponent(s);
+  const songs=async(t,n,s)=>((await get("search?term="+q(t)+"&media=music&entity=song&limit="+n+CT,s)).results||[]).filter(x=>x.trackId&&x.kind==="song").map(song);
+  const albums=async(t,n,s)=>((await get("search?term="+q(t)+"&media=music&entity=album&limit="+n+CT,s)).results||[]).filter(x=>x.collectionId).map(album);
+  async function artists(t,n,s){
+    const [a,b]=await Promise.all([get("search?term="+q(t)+"&media=music&entity=musicArtist&limit="+n+CT,s),get("search?term="+q(t)+"&media=music&entity=album&attribute=artistTerm&limit=50"+CT,s).catch(()=>({results:[]}))]);
+    const im={};(b.results||[]).forEach(x=>{if(x.artistId&&!im[x.artistId])im[x.artistId]=x.artworkUrl100;});
+    return(a.results||[]).filter(x=>x.artistId).map(x=>({id:"ita_"+x.artistId,name:x.artistName,image:img(im[x.artistId])}));
+  }
+  const num=id=>String(id).replace(/^it[ac]?_/,"");
+  async function all(t,s){
+    const [S,A,R2]=await Promise.all([songs(t,12,s),albums(t,8,s),artists(t,8,s)]);
+    return{data:{songs:{results:S.map(x=>({id:x.id,title:x.name,image:x.image,singers:x.artists.primary[0].name,album:x.album.name,language:""}))},
+      albums:{results:A.map(x=>({id:x.id,title:x.name,image:x.image,description:x.artists.primary[0].name}))},
+      artists:{results:R2.map(x=>({id:x.id,title:x.name,image:x.image}))}}};
+  }
+  const nz=s=>String(s||"").toLowerCase().replace(/\([^)]*\)|\[[^\]]*\]/g," ").replace(/[^a-z0-9\u0900-\u097f ]/g," ").replace(/\s+/g," ").trim();
+  function score(t,c){
+    const a=nz(t.name),b=nz(c.name);let s=0;
+    if(a&&a===b)s+=3;else if(a&&b&&(a.includes(b)||b.includes(a)))s+=1.5;else return 0;
+    const ta=nz(t.artistName).split(" ").filter(w=>w.length>2),cb=nz(c.artistName);
+    if(ta.length&&ta.some(w=>cb.includes(w)))s+=2;
+    if(t.duration&&c.duration){const d=Math.abs(t.duration-c.duration);if(d<=4)s+=2;else if(d<=12)s+=1;else if(d>40)s-=2;}
+    return s;
+  }
+  const pick=(t,l)=>{let b=null,bs=0;l.forEach(c=>{const s=score(t,c);if(s>bs){bs=s;b=c;}});return bs>=3.5?b:null;};
+  async function resolve(t){
+    const nm=(t.name+" "+String(t.artistName||"").split(",")[0]).trim();
+    if(!/^it_/.test(String(t.id))){ /* JioSaavn track with no stream url: ask JioSaavn by id first */
+      try{const r=await J.getSong(t.id);const f=normalizeSong(Array.isArray(r.data)?r.data[0]:r.data);if(f&&Object.keys(f.downloadUrl).length)return{downloadUrl:f.downloadUrl};}catch(e){}
+    }
+    try{ /* 1) JioSaavn (full audio, Audio FX works) */
+      const r=await J.searchSongs(nm,0,10);
+      const b=pick(t,((r.data&&r.data.results)||[]).map(normalizeSong).filter(x=>x&&Object.keys(x.downloadUrl).length));
+      if(b)return{downloadUrl:b.downloadUrl,duration:t.duration||b.duration,hasLyrics:b.hasLyrics,jsId:b.id};
+    }catch(e){}
+    try{ /* 2) YouTube fallback */
+      const l=await YTB.search(nm+" audio");
+      let b=pick(t,l);if(!b&&t.duration)b=l.find(c=>Math.abs(c.duration-t.duration)<=15);
+      if(b)return{ytId:b.ytId,duration:t.duration||b.duration,source:"youtube"};
+    }catch(e){}
+    return null;
+  }
+  async function fill(t){
+    if(!t||t.ytId||Object.keys(t.downloadUrl||{}).length)return t;
+    let h=R.get(t.id);if(!h){h=await resolve(t);if(h)R.set(t.id,h);}
+    if(!h)throw new Error("no-src");
+    Object.assign(t,h);return t;
+  }
+  return{
+    all,songs:async(t,n,s)=>({data:{results:await songs(t,n,s)}}),albums:async(t,n,s)=>({data:{results:await albums(t,n,s)}}),artists:async(t,n,s)=>({data:{results:await artists(t,n,s)}}),
+    song:async(id,s)=>{const r=(await get("lookup?id="+num(id)+CT,s)).results||[];return{data:r.filter(x=>x.trackId).map(song)};},
+    album:async(id,s)=>{const r=(await get("lookup?id="+num(id)+"&entity=song"+CT,s)).results||[];if(!r.length)throw {message:"Album not found."};return{data:Object.assign(album(r[0]),{songs:r.slice(1).filter(x=>x.trackId).map(song)})};},
+    artist:async(id,s)=>{const [a,b]=await Promise.all([get("lookup?id="+num(id)+"&entity=song&limit=25"+CT,s),get("lookup?id="+num(id)+"&entity=album&limit=1"+CT,s).catch(()=>({results:[]}))]);
+      const r=a.results||[],al=(b.results||[]).find(x=>x.collectionId);
+      return{data:{id:String(id),name:(r[0]&&r[0].artistName)||"Artist",image:img(al&&al.artworkUrl100),followerCount:0,bio:[],topSongs:r.filter(x=>x.trackId).map(song)}};},
+    artistAlbums:async(id,p,s)=>p?{data:{albums:[]}}:{data:{albums:((await get("lookup?id="+num(id)+"&entity=album&limit=50"+CT,s)).results||[]).filter(x=>x.collectionId).map(album)}},
+    artistSongs:async(id,p,s)=>p?{data:{songs:[]}}:{data:{songs:((await get("lookup?id="+num(id)+"&entity=song&limit=200"+CT,s)).results||[]).filter(x=>x.trackId).map(song)}},
+    fill
+  };
+})();
+const J={};["searchAll","searchSongs","searchAlbums","searchArtists","getSong","getAlbum","getArtist","getArtistAlbums","getArtistSongs"].forEach(k=>{J[k]=Api[k];});
+Api.getSong=(id,s)=>/^it_/.test(id)?ITB.song(id,s):J.getSong(id,s);
+Api.getAlbum=(id,s)=>/^itc_/.test(id)?ITB.album(id,s):J.getAlbum(id,s);
+Api.getArtist=(id,s)=>/^ita_/.test(id)?ITB.artist(id,s):J.getArtist(id,s);
+Api.getArtistAlbums=(id,p,s)=>/^ita_/.test(id)?ITB.artistAlbums(id,p,s):J.getArtistAlbums(id,p,s);
+Api.getArtistSongs=(id,p,s)=>/^ita_/.test(id)?ITB.artistSongs(id,p,s):J.getArtistSongs(id,p,s);
+/* user-typed search: iTunes first, JioSaavn if iTunes has nothing / fails (YouTube results are merged by the search view) */
+async function itFirst(fn,empty,fb){
+  try{const r=await fn();if(!empty(r))return r;}catch(e){if(e&&e.type==="aborted")throw e;}
+  return fb();
+}
+Api.uAll=(t,s)=>itFirst(()=>ITB.all(t,s),r=>!(r.data.songs.results.length||r.data.albums.results.length||r.data.artists.results.length),()=>J.searchAll(t,s));
+Api.uSongs=(t,p,n,s)=>itFirst(()=>ITB.songs(t,n,s),r=>!r.data.results.length,()=>J.searchSongs(t,p,n,s));
+Api.uAlbums=(t,p,n,s)=>itFirst(()=>ITB.albums(t,n,s),r=>!r.data.results.length,()=>J.searchAlbums(t,p,n,s));
+Api.uArtists=(t,p,n,s)=>itFirst(()=>ITB.artists(t,n,s),r=>!r.data.results.length,()=>J.searchArtists(t,p,n,s));
+
 /* ============================================================ STATE ============================================================ */
 const State = {
   view: "home", viewParams: {}, navStack: [],
@@ -1772,7 +1862,7 @@ var YTB=(function(){
     else if(a==="goto"){navigate("settings",{});}
     else if(a==="hint-off"){ls.s("ytb_hint_off","1");b.parentNode.remove();}
   });
-  return{el,load,stop,begin,settingsRows,hintHTML,ccEndpoint:()=>ls.g(CCK).trim(),hasKey:()=>!!key()};
+  return{el,load,stop,begin,search,settingsRows,hintHTML,ccEndpoint:()=>ls.g(CCK).trim(),hasKey:()=>!!key()};
 })();
 bindAudioEvents(YTB.el);
 SystemMedia.init();
@@ -2839,14 +2929,14 @@ async function runSearch(){
   const ctl=new AbortController();State._searchAbort=ctl;const seq=++State._searchSeq;res.innerHTML='<div class="row-list">'+skeletonRows(6)+'</div>';const yt=YTB.begin(q,ctl.signal,State.searchTab,()=>{if(seq===State._searchSeq)runSearch();});
   try{
     if(State.searchTab==="all"){
-      const r=await Api.searchAll(q,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;const d=r.data||{},songs=await yt.merge((d.songs&&d.songs.results||[]).map(normalizeSongFromCompact)),albums=(d.albums&&d.albums.results||[]).map(normalizeAlbumFromCompact),artists=(d.artists&&d.artists.results||[]).map(normalizeArtistFromCompact);if(seq!==State._searchSeq)return;let html="";
+      const r=await Api.uAll(q,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;const d=r.data||{},songs=await yt.merge((d.songs&&d.songs.results||[]).map(normalizeSongFromCompact)),albums=(d.albums&&d.albums.results||[]).map(normalizeAlbumFromCompact),artists=(d.artists&&d.artists.results||[]).map(normalizeArtistFromCompact);if(seq!==State._searchSeq)return;let html="";
       if(songs.length){storeCtx("search-all",songs);html+='<div class="section-title" style="margin:6px 0 10px;">Songs</div><div class="row-list">'+songs.map((s,i)=>songRow(s,i,{ctxKey:"search-all"})).join("")+'</div>';}
       if(albums.length)html+='<div class="section-title" style="margin:20px 0 10px;">Albums</div><div class="hscroll">'+albums.map(albumCard).join("")+'</div>';
       if(artists.length)html+='<div class="section-title" style="margin:20px 0 10px;">Artists</div><div class="hscroll">'+artists.map(artistCard).join("")+'</div>';
       if(!songs.length&&!albums.length&&!artists.length)return renderNoResults(res);res.innerHTML=html;
-    }else if(State.searchTab==="songs"){const r=await Api.searchSongs(q,0,30,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;let list=(r.data.results||[]).map(normalizeSong);list=await yt.merge(list);if(seq!==State._searchSeq)return;if(!list.length)return renderNoResults(res);storeCtx("search-songs",list);res.innerHTML='<div class="row-list">'+list.map((s,i)=>songRow(s,i,{ctxKey:"search-songs"})).join("")+'</div>';
-    }else if(State.searchTab==="albums"){const r=await Api.searchAlbums(q,0,24,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;const list=(r.data.results||[]).map(normalizeAlbum);if(!list.length)return renderNoResults(res);res.innerHTML='<div class="grid">'+list.map(albumCard).join("")+'</div>';
-    }else if(State.searchTab==="artists"){const r=await Api.searchArtists(q,0,24,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;const list=(r.data.results||[]).map(normalizeArtist);if(!list.length)return renderNoResults(res);res.innerHTML='<div class="grid">'+list.map(artistCard).join("")+'</div>';
+    }else if(State.searchTab==="songs"){const r=await Api.uSongs(q,0,30,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;let list=(r.data.results||[]).map(normalizeSong);list=await yt.merge(list);if(seq!==State._searchSeq)return;if(!list.length)return renderNoResults(res);storeCtx("search-songs",list);res.innerHTML='<div class="row-list">'+list.map((s,i)=>songRow(s,i,{ctxKey:"search-songs"})).join("")+'</div>';
+    }else if(State.searchTab==="albums"){const r=await Api.uAlbums(q,0,24,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;const list=(r.data.results||[]).map(normalizeAlbum);if(!list.length)return renderNoResults(res);res.innerHTML='<div class="grid">'+list.map(albumCard).join("")+'</div>';
+    }else if(State.searchTab==="artists"){const r=await Api.uArtists(q,0,24,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;const list=(r.data.results||[]).map(normalizeArtist);if(!list.length)return renderNoResults(res);res.innerHTML='<div class="grid">'+list.map(artistCard).join("")+'</div>';
     }else if(State.searchTab==="playlists"){const r=await Api.searchPlaylists(q,0,24,ctl.signal);if(ctl.signal.aborted||seq!==State._searchSeq)return;const list=(r.data.results||[]).map(normalizePlaylist);if(!list.length)return renderNoResults(res);res.innerHTML='<div class="grid">'+list.map(playlistCard).join("")+'</div>';}
   }catch(err){if(err&&err.type==="aborted")return;if(seq===State._searchSeq)res.innerHTML=errorStateHTML(err.message||"Search failed. Please try again.","runSearch()");}
 }
@@ -3554,6 +3644,7 @@ function init(){
   // Robust source recovery: try alternate quality URLs before declaring a track dead.
   const originalLoadAndPlay = loadAndPlay;
   loadAndPlay = async function(el, track, startAt){
+    if(track&&!track.ytId&&!Object.keys(track.downloadUrl||{}).length){ await ITB.fill(track); }
     if(track&&track.ytId){ await YTB.load(track,startAt); return true; }
     if(YTB) YTB.stop();
     const urls=[];
